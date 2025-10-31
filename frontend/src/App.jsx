@@ -5,10 +5,10 @@ import PlotPanel from "./components/PlotPanel";
 import ScenarioPanel from "./components/ScenarioPanel";
 
 function App() {
-  // const handlePositionSelect = (timestamp) => {
-  //   console.log("Selected timestamp:", timestamp);
-  //   // TODO: link this to your video slider or playback component
-  // };
+  const handlePositionSelect = (timestamp) => {
+    console.log("Selected timestamp:", timestamp);
+    // TODO: link this to your video slider or playback component
+  };
   return (
     <div style={{ padding: "2rem", fontFamily: "Arial, sans-serif" }}>
       <h1>React Dashboard is running!</h1>
@@ -16,8 +16,7 @@ function App() {
 
       <div style={{ marginTop: "2rem" }}>
         <VideoPanel />
-        <MapPanel/>
-        {/* <MapPanel onPositionSelect={handlePositionSelect} /> */}
+        <MapPanel onPositionSelect={handlePositionSelect} />
         <PlotPanel />
         <ScenarioPanel />
       </div>
