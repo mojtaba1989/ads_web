@@ -36,6 +36,7 @@ async def lifespan(app: FastAPI):
         app.state.video_path = app.state.video_list[0]
         app.state.video_sync = change_video(app.state.video_sync, app.state.video_path)
         app.state.scenarios = app.state.dads.get("scenarios", {})
+        app.state.plot_list = get_plot_list(app.state.dads)
         print(f"✅ Loaded GPS data from {TEST_DADS} ({len(app.state.gps_df)} rows)")
         print(f"✅ Loaded video from {app.state.video_path}")
     else:
@@ -47,6 +48,7 @@ async def lifespan(app: FastAPI):
         app.state.video_sync = None
         app.state.video_path = None
         app.state.scenarios = None
+        app.state.plot_list = None
         print(f"⚠️ GPS data file not found at {TEST_DADS}")
 
     # Yield control to allow the app to run
@@ -61,6 +63,7 @@ async def lifespan(app: FastAPI):
     app.state.video_sync = None
     app.state.video_path = None
     app.state.scenarios = None
+    app.state.plot_list = None
     print("🧹 Cleaned up global state.")
 
 

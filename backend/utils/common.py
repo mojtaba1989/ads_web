@@ -70,7 +70,31 @@ def change_video(sync: dict, cam: str):
 def find_closest_time(dict: dict, time: int):
     best = min(dict, key=lambda f: abs(int(f) - int(time)))
     return best
-            
+
+def get_plot_list(dads: dict):
+    plot_list = list()
+    dir = os.path.join(dads['pwd'], 'csv')
+    for topic in dads['topics'].keys():
+        plot_list.append("--" + topic)
+        file_name = dads['topics'][topic][0]+'.'+topic
+        file_path = os.path.join(dir, file_name)
+        data = pd.read_csv(file_path)
+        for col in data.columns:
+            if col == 'time':
+                continue
+            plot_list.append(col)            
+    return plot_list
+
+
+def load_chart(dads: dict, topic: str, col: str):
+    data = {'data':[]}
+    for file in dads['topics'][topic]:
+        file_path = os.path.join(dads['pwd'], 'csv', file + '.'+topic)
+        csv_data = pd.read_csv(file_path)
+        for i in range(len(csv_data)):
+            data[int(csv_data['time'][i])] = float(csv_data[col][i])
+            data['data'].append({'t':int(csv_data['time'][i]), 'value':float(csv_data[col][i])})
+    return data
 
 
 
@@ -85,6 +109,7 @@ def find_closest_time(dict: dict, time: int):
 if __name__ == '__main__':
     l = list_dads("D:\\")
     print(l)
-    print(load_dads(l[1])["pwd"])
-    gps = load_gps(load_dads(l[1]))
-    print(get_gps_df(gps).head())
+    dads = load_dads(l[1])
+    gps = load_gps(dads)
+    topics = get_plot_list(dads)
+    print(topics)
