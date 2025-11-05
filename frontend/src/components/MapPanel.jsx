@@ -1,5 +1,5 @@
-import React, { useEffect, useState, useRef, use } from "react";
-import { MapContainer, TileLayer, Polyline, useMapEvents, Marker, Popup} from "react-leaflet";
+import React, { useEffect, useState} from "react";
+import { MapContainer, TileLayer, Polyline, Marker} from "react-leaflet";
 import L from "leaflet";
 import "leaflet/dist/leaflet.css";
 
@@ -83,7 +83,6 @@ const MapPanel = ({ jumpToTime, onSeek, source }) => {
             draggable={true}
             eventHandlers={{dragend: handleDragEnd}}
           />
-          {/* <MapClickHandler /> */}
         </MapContainer>
       )}
     </div>

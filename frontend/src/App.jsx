@@ -22,6 +22,12 @@ function App() {
     setJumpToTime(time);
     setSource("map");
   };
+
+  const handleScenarioSelect = (time) => {
+    setJumpToTime(time);
+    setSource("scenario");
+  };
+
   return (
     <div style={{ padding: "2rem", fontFamily: "Arial, sans-serif" }}>
       <h1>React Dashboard is running!</h1>
@@ -39,7 +45,11 @@ function App() {
           source={source}
         />
         <PlotPanel />
-        <ScenarioPanel />
+        <ScenarioPanel 
+          jumpToTime={jumpToTime}
+          onSelectScenario={handleScenarioSelect}
+          source={source}
+        />
       </div>
     </div>
   );

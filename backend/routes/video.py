@@ -1,9 +1,6 @@
 from fastapi import APIRouter, Request, Response, Query
-from fastapi.responses import FileResponse, StreamingResponse, Response, JSONResponse
-import cv2
-import threading
-import pandas as pd
-import numpy as np
+from fastapi.responses import FileResponse, Response, JSONResponse
+
 
 
 router = APIRouter()

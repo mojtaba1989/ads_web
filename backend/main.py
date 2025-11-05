@@ -1,7 +1,7 @@
 from fastapi import FastAPI, WebSocket, Request
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
-from routes import video, plots, sync
+from routes import video, plots, scenario
 from routes import map as map_router
 from contextlib import asynccontextmanager
 import pandas as pd
@@ -35,6 +35,7 @@ async def lifespan(app: FastAPI):
         app.state.video_sync = get_video_sync(app.state.dads)
         app.state.video_path = app.state.video_list[0]
         app.state.video_sync = change_video(app.state.video_sync, app.state.video_path)
+        app.state.scenarios = app.state.dads.get("scenarios", {})
         print(f"✅ Loaded GPS data from {TEST_DADS} ({len(app.state.gps_df)} rows)")
         print(f"✅ Loaded video from {app.state.video_path}")
     else:
@@ -45,6 +46,7 @@ async def lifespan(app: FastAPI):
         app.state.video_list = None
         app.state.video_sync = None
         app.state.video_path = None
+        app.state.scenarios = None
         print(f"⚠️ GPS data file not found at {TEST_DADS}")
 
     # Yield control to allow the app to run
@@ -58,6 +60,7 @@ async def lifespan(app: FastAPI):
     app.state.video_list = None
     app.state.video_sync = None
     app.state.video_path = None
+    app.state.scenarios = None
     print("🧹 Cleaned up global state.")
 
 
@@ -77,9 +80,7 @@ app.add_middleware(
 app.include_router(video.router, prefix="/api/video")
 app.include_router(map_router.router, prefix="/api/map")
 app.include_router(plots.router, prefix="/api/plots")
-app.include_router(sync.router, prefix="/api")
-
-# app.include_router(scenario.router, prefix="/api/scenario")
+app.include_router(scenario.router, prefix="/api/scenario")
 
 @app.get("/")
 def root():
