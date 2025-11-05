@@ -1,13 +1,26 @@
-import React from "react";
+import React , {useState, useEffect} from "react";
 import VideoPanel from "./components/VideoPanel";
 import MapPanel from "./components/MapPanel";
 import PlotPanel from "./components/PlotPanel";
 import ScenarioPanel from "./components/ScenarioPanel";
 
 function App() {
-  const handlePositionSelect = (timestamp) => {
-    console.log("Selected timestamp:", timestamp);
-    // TODO: link this to your video slider or playback component
+  const [jumpToTime, setJumpToTime] = useState(0);
+  const [source, setSource] = useState(null);
+
+  useEffect(() => {
+    if (jumpToTime)
+      console.log("Jumping to time:", jumpToTime);
+    }, [jumpToTime]);
+
+  const handleVideoTimeChange = (time) => {
+    setJumpToTime(time);
+    setSource("video");
+  };
+
+  const handleMapSeek = (time) => {
+    setJumpToTime(time);
+    setSource("map");
   };
   return (
     <div style={{ padding: "2rem", fontFamily: "Arial, sans-serif" }}>
@@ -15,8 +28,16 @@ function App() {
       <p>Use this skeleton to build your dashboard components.</p>
 
       <div style={{ marginTop: "2rem" }}>
-        <VideoPanel />
-        <MapPanel onPositionSelect={handlePositionSelect} />
+        <VideoPanel 
+          jumpToTime={jumpToTime}
+          onTimeChange={handleVideoTimeChange}
+          source={source}
+          />
+        <MapPanel
+          jumpToTime={jumpToTime}
+          onSeek={handleMapSeek}
+          source={source}
+        />
         <PlotPanel />
         <ScenarioPanel />
       </div>
