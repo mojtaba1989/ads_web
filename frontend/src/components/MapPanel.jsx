@@ -2,6 +2,7 @@ import React, { useEffect, useState} from "react";
 import { MapContainer, TileLayer, Polyline, Marker} from "react-leaflet";
 import L from "leaflet";
 import "leaflet/dist/leaflet.css";
+import MapPanelView from "../views/MapPanelView";
 
 
 import markerIconPng from "leaflet/dist/images/marker-icon.png";
@@ -67,25 +68,12 @@ const MapPanel = ({ jumpToTime, onSeek, source }) => {
   }, [jumpToTime, source]);
 
   return (
-    <div style={{ height: "500px", width: "100%" }}>
-      {positions.length > 0 && (
-        <MapContainer center={center} zoom={13} style={{ height: "100%", width: "100%" }}>
-          <TileLayer
-            url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-            attribution='&copy; <a href="https://www.openstreetmap.org/">OSM</a> contributors'
-          />
-          <Polyline 
-            positions={positions} 
-            color="blue"
-            width={40}/>
-          <Marker 
-            position={startPos}
-            draggable={true}
-            eventHandlers={{dragend: handleDragEnd}}
-          />
-        </MapContainer>
-      )}
-    </div>
+    <MapPanelView
+      center={center}
+      positions={positions}
+      startPos={startPos}
+      handleDragEnd={handleDragEnd}
+    />
   );
 };
 

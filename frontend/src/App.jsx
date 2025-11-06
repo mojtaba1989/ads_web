@@ -4,6 +4,8 @@ import MapPanel from "./components/MapPanel";
 import PlotPanel from "./components/PlotPanel";
 import ScenarioPanel from "./components/ScenarioPanel";
 import LidarPanel from "./components/LidarPanel";
+import InfoPanel from "./components/InfoPanel";
+import { GridLayer, gridLayer } from "leaflet";
 
 function App() {
   const [jumpToTime, setJumpToTime] = useState(0);
@@ -35,34 +37,84 @@ function App() {
   };
 
   return (
-    <div style={{ padding: "2rem", fontFamily: "Arial, sans-serif" }}>
-      <h1>React Dashboard is running!</h1>
-      <p>Use this skeleton to build your dashboard components.</p>
-
-      <div style={{ marginTop: "2rem" }}>
-        <LidarPanel jumpToTime={jumpToTime}/>
-        <VideoPanel 
-          jumpToTime={jumpToTime}
-          onTimeChange={handleVideoTimeChange}
-          source={source}
+    <div
+      style={{
+        display: "grid",
+        gridTemplateColumns: "25% 75%",
+        gap: ".1rem",
+        height: "100vh",
+        background: "#f3f4f602",
+      }}
+    >
+      <div>
+        <div>
+          <InfoPanel />
+        </div>
+        <div>
+          <ScenarioPanel
+            jumpToTime={jumpToTime}
+            onSelectScenario={handleScenarioSelect}
+            source={source}
           />
-        <MapPanel
-          jumpToTime={jumpToTime}
-          onSeek={handleMapSeek}
-          source={source}
-        />
-        <PlotPanel 
-          jumpToTime={jumpToTime} 
-          onSeek={handlePlotSeek} 
-          source={source}
-        />
-        <ScenarioPanel 
-          jumpToTime={jumpToTime}
-          onSelectScenario={handleScenarioSelect}
-          source={source}
-        />
+        </div>
+        <div>
+          <MapPanel
+            jumpToTime={jumpToTime}
+            onSeek={handleMapSeek}
+            source={source}
+          />
+        </div>
+      </div>
+
+      <dev
+        style={{
+          display: "grid",
+          GridLayer: "75% 25%"
+        }}>
+          <div
+            style={{
+              display: "grid",
+              gridTemplateColumns: "60% 40%"
+            }}>
+            <div>
+              <VideoPanel
+                jumpToTime={jumpToTime}
+                onTimeChange={handleVideoTimeChange}
+                source={source}
+              />
+            </div>
+            <div>
+              <LidarPanel jumpToTime={jumpToTime} />
+            </div>
+          </div>
+      
+          <div>
+            <PlotPanel
+              jumpToTime={jumpToTime}
+              onSeek={handlePlotSeek}
+              source={source}
+            />
+          </div>
+      </dev>
+
+      {/* ---------- Bottom Controls ---------- */}
+      <div
+        style={{
+          gridColumn: "1 / 4",
+          borderTop: "1px solid #ccc",
+          background: "#f9fafb",
+          padding: "0.5rem",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "space-between",
+          height: "50px",
+        }}
+      >
+        <div>ROS Time: {jumpToTime}</div>
+        <div>Date/Time Placeholder</div>
       </div>
     </div>
+
   );
 }
 

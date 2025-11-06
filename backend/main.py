@@ -1,7 +1,7 @@
 from fastapi import FastAPI, WebSocket, Request
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
-from routes import video, plots, scenario, lidar
+from routes import video, plots, scenario, lidar, info
 from routes import map as map_router
 from contextlib import asynccontextmanager
 import pandas as pd
@@ -88,6 +88,7 @@ app.include_router(map_router.router, prefix="/api/map")
 app.include_router(plots.router, prefix="/api/plots")
 app.include_router(scenario.router, prefix="/api/scenario")
 app.include_router(lidar.router, prefix="/api/lidar")
+app.include_router(info.router, prefix="/api/info")
 
 @app.get("/")
 def root():

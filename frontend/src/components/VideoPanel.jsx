@@ -1,4 +1,5 @@
 import React, { useRef, useState, useEffect, use } from "react";
+import VideoPanelView from "../views/VideoPanelView";
 
 const VideoPanel = ({jumpToTime, onTimeChange, source}) => {
   const videoRef = useRef(null);
@@ -57,25 +58,12 @@ const VideoPanel = ({jumpToTime, onTimeChange, source}) => {
   }, [jumpToTime, source]);
 
   return (
-    <div className="flex flex-col items-center justify-center w-full h-full bg-gray-900 rounded-2xl shadow-md p-4">
-      <h2 className="text-white text-lg font-semibold mb-3">Video Player</h2>
-
-      {isError ? (
-        <p className="text-red-400">Failed to load video.</p>
-      ) : (
-        <>
-          <video
-            ref={videoRef}
-            src={videoUrl}
-            className="rounded-xl shadow-lg max-w-full h-auto border border-gray-700 mb-2"
-            controls
-          />
-          <div className="bg-gray-800 text-white px-3 py-1 rounded-md mt-2">
-            ROS Time: {ROSTime}
-          </div>
-        </>
-      )}
-    </div>
+    <VideoPanelView
+      videoUrl={videoUrl}
+      isError={isError}
+      frameId={frameId}
+      videoRef={videoRef}
+    />
   );
 };
 
