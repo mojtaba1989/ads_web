@@ -23,7 +23,8 @@ const VideoPanel = ({jumpToTime, onTimeChange, source}) => {
         .then(res => res.json())
         .then(data => {
           setROSTime(data.rostime);
-          onTimeChange(data.rostime);
+          if (Math.abs(data.rostime - jumpToTime) > 100000000)
+            onTimeChange(data.rostime);
         })
         .catch(err => console.error("Failed to get frame data:", err));
     };

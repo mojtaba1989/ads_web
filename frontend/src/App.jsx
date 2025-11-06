@@ -3,6 +3,7 @@ import VideoPanel from "./components/VideoPanel";
 import MapPanel from "./components/MapPanel";
 import PlotPanel from "./components/PlotPanel";
 import ScenarioPanel from "./components/ScenarioPanel";
+import LidarPanel from "./components/LidarPanel";
 
 function App() {
   const [jumpToTime, setJumpToTime] = useState(0);
@@ -39,6 +40,7 @@ function App() {
       <p>Use this skeleton to build your dashboard components.</p>
 
       <div style={{ marginTop: "2rem" }}>
+        <LidarPanel jumpToTime={jumpToTime}/>
         <VideoPanel 
           jumpToTime={jumpToTime}
           onTimeChange={handleVideoTimeChange}

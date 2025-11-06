@@ -106,6 +106,16 @@ def downsample_list(data: list, max_len=1000):
         return data
     step = len(data) / max_len
     return [data[int(i * step)] for i in range(max_len)]
+
+
+def load_lidar_dict(dads: dict):
+    lidar_json_file = dads.get('lidar', None)
+    if lidar_json_file is None:
+        return None
+    lidar_json_path = os.path.join(dads['pwd'], lidar_json_file)
+    with open(lidar_json_path, 'r') as f:
+        lidar = json.load(f)
+    return lidar
   
 
 

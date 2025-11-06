@@ -5,6 +5,8 @@ import os
 from geopy.distance import geodesic
 import numpy as np
 from utils.common import *
+
+
 router = APIRouter()
 
 # DATA_DIR = "/data/csv/2025-05-08-10-57-27_8.bag.pos"
