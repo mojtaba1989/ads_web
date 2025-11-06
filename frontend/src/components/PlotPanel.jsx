@@ -8,14 +8,16 @@ import {
   Tooltip,
   Legend,
   ResponsiveContainer,
+  ReferenceLine,
 } from "recharts";
 
-const PlotPanel = () => {
+const PlotPanel = ({ jumpToTime, onSeek, source }) => {
   const [availablePlots, setAvailablePlots] = useState([]);
   const [selected, setSelected] = useState([]);
   const [plotData, setPlotData] = useState({}); // { "gps.latitude": [ ...data ] }
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [hovered, setHovered] = useState(null);
 
   // 🔹 Fetch plot list on mount
   useEffect(() => {
@@ -81,6 +83,20 @@ const PlotPanel = () => {
     );
   };
 
+  const handleClick = (state) => {
+    if (!state || !state.activeLabel) return;
+    const clickedX = state.activeLabel; // this corresponds to your X-axis value (t)
+    setHovered(Number(clickedX));
+    onSeek(Number(clickedX));
+  };
+
+  useEffect(() => {
+    if (jumpToTime && source !== "plot") {
+      setHovered(Number(jumpToTime));
+      console.log("Plot Jumping to time:", hovered);
+    }
+  }, [jumpToTime, source]);
+
   if (loading)
     return <div className="text-center text-gray-400 p-4">Loading plots...</div>;
   if (error)
@@ -126,18 +142,29 @@ const PlotPanel = () => {
               <h4 className="text-md font-bold mb-2">{key}</h4>
               {plotData[key] ? (
                 <ResponsiveContainer width="100%" height={200}>
-                  <LineChart data={plotData[key]}>
+                  <LineChart 
+                    data={plotData[key]}
+                    onClick={handleClick}>
+                    
                     <CartesianGrid strokeDasharray="3 3" />
-                    <XAxis dataKey="t" />
-                    <YAxis />
+                    <XAxis
+                      dataKey="t"
+                      type="number"
+                      domain={['dataMin', 'dataMax']}
+                      allowDataOverflow
+                      label={"rostime"}
+                      tick={false}
+                    />
+                    <YAxis/>
                     <Tooltip />
-                    <Legend />
+                    {/* <Legend /> */}
                     <Line
                       type="monotone"
                       dataKey="value"
-                      stroke="#82ca9d"
+                      stroke="#616ae4ff"
                       dot={false}
                     />
+                    <ReferenceLine x={hovered} stroke="red" strokeDasharray="3 3" />
                   </LineChart>
                 </ResponsiveContainer>
               ) : (

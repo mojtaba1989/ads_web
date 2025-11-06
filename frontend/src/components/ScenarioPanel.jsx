@@ -3,13 +3,6 @@ import React, { useEffect, useState} from "react";
 
 const ScenarioPanel = ({ jumpToTime, onSelectScenario, source}) => {
   const [scenarios, setScenarios] = useState({});
-  
-  const sortedScenarios = Object.entries(scenarios)
-    .map(([key, value]) => {
-      const [id, description, timeStr] = value;
-      return { key, id, description, timeStr};
-    })
-    .sort((a, b) => a.key - b.key);
 
   useEffect(() => {
     fetch(`/api/scenario/scenario`)
@@ -18,7 +11,14 @@ const ScenarioPanel = ({ jumpToTime, onSelectScenario, source}) => {
         setScenarios(data);
       })
       .catch((err) => console.error("Scenario load error:", err));
-  }, [sortedScenarios]);
+  }, []);
+  
+  const sortedScenarios = Object.entries(scenarios)
+    .map(([key, value]) => {
+      const [id, description, timeStr] = value;
+      return { key, id, description, timeStr};
+    })
+    .sort((a, b) => a.key - b.key);
 
   return (
     <div className="scenario-panel p-4 bg-gray-900 text-white rounded-lg shadow-md mt-4">

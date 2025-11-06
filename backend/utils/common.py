@@ -25,13 +25,15 @@ def load_dads(file_path: str):
         data['pwd'] = parent_directory
     return data
 
-def load_gps(dads: dict):
+def load_gps(dads: dict, max_len: int = 1000):
     gps = {}
     for file in dads['topics']['pos']:
         file_path = os.path.join(dads['pwd'], 'csv', file + '.pos')
         data = pd.read_csv(file_path)
-        for i in range(len(data)):
-            gps[int(data['time'][i])] = [float(data['lat'][i]), float(data['lon'][i])]
+        gps.update(dict(zip(data['time'].astype(int), zip(data['lat'], data['lon']))))
+    keys = list(gps.keys())
+    step = max(1, len(keys) // max_len)
+    gps = {k: gps[k] for k in keys[::step]}
     return gps
 
 def get_gps_df(gps: dict):
@@ -87,15 +89,24 @@ def get_plot_list(dads: dict):
 
 
 def load_chart(dads: dict, topic: str, col: str):
-    data = {'data':[]}
+    data = []
     for file in dads['topics'][topic]:
-        file_path = os.path.join(dads['pwd'], 'csv', file + '.'+topic)
+        file_path = os.path.join(dads['pwd'], 'csv', f"{file}.{topic}")
         csv_data = pd.read_csv(file_path)
-        for i in range(len(csv_data)):
-            data[int(csv_data['time'][i])] = float(csv_data[col][i])
-            data['data'].append({'t':int(csv_data['time'][i]), 'value':float(csv_data[col][i])})
-    return data
+        df = pd.DataFrame({
+            't': csv_data['time'].astype(int),
+            'value': csv_data[col].astype(float)
+        })
+        data.extend(df.to_dict('records'))
+    data = downsample_list(data)
+    return {'data': data}
 
+def downsample_list(data: list, max_len=1000):
+    if len(data) <= max_len:
+        return data
+    step = len(data) / max_len
+    return [data[int(i * step)] for i in range(max_len)]
+  
 
 
 

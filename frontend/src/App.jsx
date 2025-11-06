@@ -28,6 +28,11 @@ function App() {
     setSource("scenario");
   };
 
+  const handlePlotSeek = (time) => {
+    setJumpToTime(time);
+    setSource("plot");
+  };
+
   return (
     <div style={{ padding: "2rem", fontFamily: "Arial, sans-serif" }}>
       <h1>React Dashboard is running!</h1>
@@ -44,7 +49,11 @@ function App() {
           onSeek={handleMapSeek}
           source={source}
         />
-        <PlotPanel />
+        <PlotPanel 
+          jumpToTime={jumpToTime} 
+          onSeek={handlePlotSeek} 
+          source={source}
+        />
         <ScenarioPanel 
           jumpToTime={jumpToTime}
           onSelectScenario={handleScenarioSelect}
