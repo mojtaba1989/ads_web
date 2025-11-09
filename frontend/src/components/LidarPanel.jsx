@@ -39,7 +39,6 @@ function LidarPanel({jumpToTime}) {
   return (
     <LidarPanelView
       lidarData={lidarData}
-      setCurrentTime={setCurrentTime}
       vehicleMeshUrl={vehicleMeshUrl}
       humanMeshUrl={humanMeshUrl}
     />
