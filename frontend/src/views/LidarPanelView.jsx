@@ -1,8 +1,6 @@
 import { OrbitControls } from "@react-three/drei";
 import { Canvas } from "@react-three/fiber";
 import { Mesh } from "../components/LidarPanel";
-import { useRef, use } from "react";
-import { RGBAFormat } from "three";
 
 const LidarPanelView = (
     { lidarData, vehicleMeshUrl, humanMeshUrl }

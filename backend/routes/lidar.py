@@ -1,9 +1,5 @@
 from fastapi import APIRouter, Query, Request
 from fastapi.responses import JSONResponse
-import pandas as pd
-import os
-from geopy.distance import geodesic
-import numpy as np
 from utils.common import *
 
 

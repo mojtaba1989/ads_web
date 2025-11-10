@@ -3,4 +3,3 @@ uvicorn
 opencv-python
 pandas
 python-multipart
-geopy

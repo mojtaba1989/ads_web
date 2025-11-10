@@ -6,7 +6,7 @@ const ScenarioPanel = ({ jumpToTime, onSelectScenario, source}) => {
   const [scenarios, setScenarios] = useState({});
 
   useEffect(() => {
-    fetch(`/api/scenario/scenario`)
+    fetch(`http://localhost:8000/api/scenario/scenario`)
       .then((res) => res.json())
       .then((data) => {
         setScenarios(data);

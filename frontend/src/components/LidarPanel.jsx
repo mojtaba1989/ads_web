@@ -21,7 +21,7 @@ function LidarPanel({jumpToTime}) {
   const [currentTime, setCurrentTime] = useState(0);
 
   useEffect(() => {
-    fetch(`/api/lidar/objects?rostime=${currentTime}`)
+    fetch(`http://localhost:8000/api/lidar/objects?rostime=${currentTime}`)
       .then(res => res.json())
       .then(data => {
         setLidarData(Array.isArray(data) ? data : [])

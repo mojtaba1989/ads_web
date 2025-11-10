@@ -11,7 +11,8 @@ from utils.common import *
 
 TEST_DATA_DIR = "D:\\presentation_sample_dads\\presentation_dads\\csv\\2025-05-08-10-57-27_8.bag.pos"
 TEST_VIDEO_DIR = "D:\\presentation_sample_dads\\presentation_dads\\cam_mono_2025_05_08_14_17_15_Ngpu.mp4"
-DADS_DIR = "D:\\"
+# DADS_DIR = "D:\\"
+DADS_DIR = "/data"
 
 
 file_path = os.path.abspath(__file__)

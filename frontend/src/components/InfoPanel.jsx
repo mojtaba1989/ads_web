@@ -5,7 +5,7 @@ const InfoPanel = () => {
     const [info, setInfo] = useState([]);
 
     useEffect(() => {
-        fetch("/api/info/info")
+        fetch("http://localhost:8000/api/info/info")
             .then(res => res.json())
             .then(data => {
                 setInfo(data);

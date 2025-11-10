@@ -1,16 +1,5 @@
 import React, { useState, useEffect } from "react";
 import PlotPanelView from "../views/PlotPanelView";
-import {
-  LineChart,
-  Line,
-  XAxis,
-  YAxis,
-  CartesianGrid,
-  Tooltip,
-  Legend,
-  ResponsiveContainer,
-  ReferenceLine,
-} from "recharts";
 
 const PlotPanel = ({ jumpToTime, onSeek, source }) => {
   const [availablePlots, setAvailablePlots] = useState([]);
@@ -24,7 +13,7 @@ const PlotPanel = ({ jumpToTime, onSeek, source }) => {
   useEffect(() => {
     const fetchPlots = async () => {
       try {
-        const res = await fetch("/api/plots/list");
+        const res = await fetch("http://localhost:8000/api/plots/list");
         if (!res.ok) throw new Error(`Server returned ${res.status}`);
         const data = await res.json();
         if (Array.isArray(data.list)) {
@@ -49,7 +38,7 @@ const PlotPanel = ({ jumpToTime, onSeek, source }) => {
         if (plotData[key]) continue; // already cached
 
         try {
-          const res = await fetch(`/api/plots/data?topic=${encodeURIComponent(key)}`);
+          const res = await fetch(`http://localhost:8000/api/plots/data?topic=${encodeURIComponent(key)}`);
           if (!res.ok) throw new Error(`Failed to fetch ${key}: ${res.status}`);
           const json = await res.json();
 

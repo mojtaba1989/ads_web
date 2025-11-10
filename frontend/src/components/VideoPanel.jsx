@@ -1,13 +1,12 @@
-import React, { useRef, useState, useEffect, use } from "react";
+import React, { useRef, useState, useEffect } from "react";
 import VideoPanelView from "../views/VideoPanelView";
 
 const VideoPanel = ({jumpToTime, onTimeChange, source}) => {
   const videoRef = useRef(null);
   const [isError, setIsError] = useState(false);
   const [frameId, setFrameId] = useState(0);
-  const [ROSTime, setROSTime] = useState(0);
 
-  const videoUrl = "http://localhost:8000/api/video/file"; // your MP4
+  const videoUrl = "http://localhost:8000/api/video/file";
   const fps = 15; // video FPS
 
   useEffect(() => {
@@ -16,14 +15,12 @@ const VideoPanel = ({jumpToTime, onTimeChange, source}) => {
 
     const onError = () => setIsError(true);
 
-    // Update frame ID on any currentTime change
     const updateFrame = () => {
       const currentFrame = Math.floor(video.currentTime * fps);
       setFrameId(currentFrame);
-      fetch(`/api/video/frame2rostime?frame_id=${currentFrame}`)
+      fetch(`http://localhost:8000/api/video/frame2rostime?frame_id=${currentFrame}`)
         .then(res => res.json())
         .then(data => {
-          setROSTime(data.rostime);
           if (Math.abs(data.rostime - jumpToTime) > 100000000)
             onTimeChange(data.rostime);
         })
@@ -40,13 +37,12 @@ const VideoPanel = ({jumpToTime, onTimeChange, source}) => {
   }, [fps]);
 
   useEffect(() => {
-    if (source === "video") return; // Ignore if self-triggered
+    if (source === "video") return;
     console.log("Jumping to time:", jumpToTime);
     console.log("source:", source);
     const video = videoRef.current;
     console.log("video:", video.currentTime);
-    setROSTime(jumpToTime);
-    fetch(`/api/video/rostime2elapsed?rostime=${jumpToTime}`)
+    fetch(`http://localhost:8000/api/video/rostime2elapsed?rostime=${jumpToTime}`)
       .then(res => res.json())
       .then(data => {
         if (data.elapsed) {

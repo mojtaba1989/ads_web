@@ -11,7 +11,7 @@ const PlotPanelView = ({
         <div className="section" style={{height:"100%", display: "flex", flexDirection: "column"}}>
             <h2>Plot</h2>
             <div style={{display: "flex", flex: "1", minHeight: "0"}}>
-                <div style={{flex: "0 1 25%", overflowY:"auto"}}>
+                <div style={{flex: "0 1 15%", overflowY:"auto"}}>
                     {Object.entries(groups).map(([group, fields]) => (
                         <div key={group} className="mb-3">
                             <h4 className="font-bold text-blue-400 mb-1">📊 {group}</h4>
@@ -34,7 +34,7 @@ const PlotPanelView = ({
                         </div>
                     ))}
                 </div>
-                <div style={{flex: "1", overflowY:"auto"}}>
+                <div style={{flex: "1", overflowY:"hidden", paddingRight: "1rem"}}>
                     {selected.length === 0 ? (
                         <h3> Select any variable to visualize it here.</h3>
                         ) : (

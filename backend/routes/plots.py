@@ -1,6 +1,5 @@
 from fastapi import APIRouter, Request, Response, Query
-from fastapi.responses import FileResponse, Response, JSONResponse
-import pandas as pd
+from fastapi.responses import Response, JSONResponse
 from utils.common import *
 
 router = APIRouter()

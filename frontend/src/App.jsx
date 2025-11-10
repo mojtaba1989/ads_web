@@ -123,8 +123,7 @@ function App() {
         color: "#afafafff",
         }}>
 
-        © MTU@ACM
-        2025
+        © 2025 MTU@ACM
       </div>
     </div>
   )
