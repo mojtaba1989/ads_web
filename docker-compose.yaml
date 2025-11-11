@@ -7,7 +7,7 @@ services:
       - "8000:8000"
     volumes:
       - ./backend:/app                      # your backend code
-      - E:\:/data  # 👈 mount external drive folder
+      - D:\:/data  # 👈 mount external drive folder
     environment:
       - PYTHONUNBUFFERED=1
   frontend:

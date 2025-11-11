@@ -34,7 +34,7 @@ const PlotPanelView = ({
                         </div>
                     ))}
                 </div>
-                <div style={{flex: "1", overflowY:"hidden", paddingRight: "1rem"}}>
+                <div style={{flex: "1", overflowY:"auto", paddingRight: "1rem"}}>
                     {selected.length === 0 ? (
                         <h3> Select any variable to visualize it here.</h3>
                         ) : (

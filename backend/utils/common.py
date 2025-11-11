@@ -1,6 +1,7 @@
 import json
 import os
 import pandas as pd
+from datetime import datetime
 
 file_path = os.path.abspath(__file__)
 dir_path = os.path.dirname(file_path)
@@ -75,6 +76,8 @@ def get_plot_list(dads: dict):
     plot_list = list()
     dir = os.path.join(dads['pwd'], 'csv')
     for topic in dads['topics'].keys():
+        if any([tag in topic for tag in ['cam', 'lidar']]):
+            continue
         plot_list.append("--" + topic)
         file_name = dads['topics'][topic][0]+'.'+topic
         file_path = os.path.join(dir, file_name)
@@ -114,6 +117,9 @@ def load_lidar_dict(dads: dict):
     with open(lidar_json_path, 'r') as f:
         lidar = json.load(f)
     return lidar
+
+def get_walltime(time: int):
+    return datetime.fromtimestamp(time/1e9).strftime('%Y-%m-%d %H:%M:%S')
   
 
 
@@ -130,5 +136,6 @@ if __name__ == '__main__':
     print(l)
     dads = load_dads(l[1])
     gps = load_gps(dads)
-    topics = get_plot_list(dads)
-    print(topics)
+    gps_df = get_gps_df(gps)
+    sample = get_walltime(gps_df["time"].min())
+    print(sample)

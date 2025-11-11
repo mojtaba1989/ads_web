@@ -10,10 +10,14 @@ import { GridLayer, gridLayer } from "leaflet";
 function App() {
   const [jumpToTime, setJumpToTime] = useState(0);
   const [source, setSource] = useState(null);
+  const [walltime, setWalltime] = useState(null);
 
   useEffect(() => {
     if (jumpToTime)
-      console.log("Jumping to time:", jumpToTime);
+      fetch(`http://localhost:8000/api/info/walltime?rostime=${jumpToTime}`)
+        .then(res => res.json())
+        .then(data => setWalltime(data.walltime))
+        .catch(err => console.error("Failed to fetch walltime:", err));
     }, [jumpToTime]);
 
   const handleVideoTimeChange = (time) => {
@@ -114,7 +118,7 @@ function App() {
           justifyContent: "space-between"
         }}>
           <div>ROS Time: {jumpToTime}</div>
-          <div>Date/Time Placeholder</div>
+          <div>Date/Time: {walltime}</div>
         </div>
       </div>
       <div style={{ 
@@ -123,7 +127,7 @@ function App() {
         color: "#afafafff",
         }}>
 
-        © 2025 MTU@ACM
+        © 2025 ACM Powered By MTU
       </div>
     </div>
   )
