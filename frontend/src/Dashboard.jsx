@@ -166,7 +166,8 @@ function Dashboard() {
           <div style={{display: "flex", flexDirection: "column", height: "100%", gap: "1rem"}}>
             <div style={{display: "flex", flex: "0 0 50%", gap: "1rem"}}>
               <div style={{aspectRatio: "16 / 9"}}>
-                <VideoPanel 
+                <VideoPanel
+                  recordingId={recordingId}
                   jumpToTime={jumpToTime}
                   onTimeChange={handleVideoTimeChange}
                   source={source}

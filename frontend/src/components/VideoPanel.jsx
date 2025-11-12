@@ -1,31 +1,20 @@
 import React, { useRef, useState, useEffect } from "react";
 import VideoPanelView from "../views/VideoPanelView";
 
-const VideoPanel = ({jumpToTime, onTimeChange, source}) => {
+const VideoPanel = ({recordingId, jumpToTime, onTimeChange, source}) => {
   const videoRef = useRef(null);
   const [isError, setIsError] = useState(false);
   const [frameId, setFrameId] = useState(0);
   const [videoUrl, setVideoUrl] = useState(null);
-  const [loading, setLoading] = useState(true);
+  // const videoUrl = `http://localhost:8000/api/video/file?cb=${Date.now()}`;
 
-  const fps = 15; // video FPS
 
   useEffect(() => {
-      setLoading(true);
-      fetch(`http://localhost:8000/api/video/file`)
-        .then((res) => {
-          if (!res.ok) throw new Error("Failed to fetch recording data");
-          return res.json();
-        })
-        .then((data) => {
-          setVideoUrl("http://localhost:8000/api/video/file")
-          setLoading(false);
-        })
-        .catch((err) => {
-          console.error("Error fetching recording:", err);
-          setLoading(false);
-        });
-    }, [videoUrl]);
+    setVideoUrl(`http://localhost:8000/api/video/file?cb=${Date.now()}`);
+  }, [recordingId]);
+
+
+  const fps = 15; // video FPS
 
   useEffect(() => {
     const video = videoRef.current;
@@ -71,25 +60,9 @@ const VideoPanel = ({jumpToTime, onTimeChange, source}) => {
       .catch(err => console.error("Failed to get frame data:", err));
   }, [jumpToTime, source]);
 
-  if (loading) {
-    return (
-      <div
-        style={{
-          height: "100vh",
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-          fontSize: "1.5rem",
-          color: "#888",
-        }}
-      >
-        Loading video...
-      </div>
-    );
-  }
-
   return (
     <VideoPanelView
+      recordingId={recordingId}
       videoUrl={videoUrl}
       isError={isError}
       frameId={frameId}

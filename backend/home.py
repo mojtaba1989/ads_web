@@ -4,7 +4,7 @@ from utils.common import *
 
 router = APIRouter()
 
-ROOT_DIR = "E:\DATABASE"
+ROOT_DIR = "/data"
 
 @router.get("/recordings")
 def get_recordings(request: Request):
