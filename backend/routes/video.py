@@ -14,7 +14,7 @@ def get_video_file(request: Request):
 
 @router.get("/frame2rostime")
 def get_video_frame(request: Request, frame_id: int = Query(...)):
-    if request.app.state.video_sync is None:
+    if request.app.state.video_sync['current'] == {}:
         return Response(status_code=500)
     rostime = request.app.state.video_sync["current"].get(frame_id, 0)
     return JSONResponse(content={"frame_id": frame_id, "rostime": rostime}, status_code=200)
@@ -22,7 +22,7 @@ def get_video_frame(request: Request, frame_id: int = Query(...)):
 
 @router.get("/rostime2elapsed")
 def get_rostime(request: Request, rostime: int = Query(...)):
-    if request.app.state.video_sync is None:
+    if request.app.state.video_sync['current'] == {}:
         return Response(status_code=500)
     best_frame = min(request.app.state.video_sync["current"], key=lambda k: abs(request.app.state.video_sync["current"][k] - rostime))
     elapsed = best_frame / 15

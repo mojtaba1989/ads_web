@@ -124,7 +124,7 @@ function Dashboard() {
           </button>
 
           <div style={{ fontSize: "1.1rem", fontWeight: "500" }}>
-            {recording.description}
+            {recording.file}
           </div>
         </div>
       </div>

@@ -24,52 +24,19 @@ async def lifespan(app: FastAPI):
     """
     Lifespan context: runs once on startup and once on shutdown.
     """
-    # --- Startup ---
-    # DADS_LIST = list_dads(DADS_DIR)
-    # TEST_DADS = DADS_LIST[1]
-    # if os.path.exists(TEST_DADS):
-    #     app.state.dads = load_dads(TEST_DADS)
-    #     app.state.gps = load_gps(app.state.dads)
-    #     app.state.gps_df = get_gps_df(app.state.gps)
-    #     app.state.rostime = app.state.gps_df["time"].min()
-    #     app.state.video_list = load_video(app.state.dads)
-    #     app.state.video_sync = get_video_sync(app.state.dads)
-    #     app.state.video_path = app.state.video_list[0]
-    #     app.state.video_sync = change_video(app.state.video_sync, app.state.video_path)
-    #     app.state.scenarios = app.state.dads.get("scenarios", {})
-    #     app.state.plot_list = get_plot_list(app.state.dads)
-    #     app.state.lidar = load_lidar_dict(app.state.dads)
-    #     print(f"✅ Loaded GPS data from {TEST_DADS} ({len(app.state.gps_df)} rows)")
-    #     print(f"✅ Loaded video from {app.state.video_path}")
-    # else:
-    #     shutdown(app)
-    startup(app)
+    cleanup(app)
 
     yield
 
-    shutdown(app)
+    cleanup(app)
     print("🧹 Cleaned up global state.")
 
-def startup(app: FastAPI):
+def cleanup(app: FastAPI):
     app.state.file_list = []
     app.state.dads = None
     app.state.gps = None
     app.state.gps_df = None
     app.state.rostime = None
-    app.state.video_list = None
-    app.state.video_sync = None
-    app.state.video_path = None
-    app.state.scenarios = None
-    app.state.plot_list = None
-    app.state.lidar = None
-
-def shutdown(app: FastAPI):
-    app.state.file_list = []
-    app.state.dads = None
-    app.state.gps = None
-    app.state.gps_df = None
-    app.state.rostime = None
-    app.state.video_list = None
     app.state.video_sync = None
     app.state.video_path = None
     app.state.scenarios = None

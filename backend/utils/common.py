@@ -43,23 +43,20 @@ def get_gps_df(gps: dict):
 
 
 def load_video(dads: dict):
-    video = []
     for file in dads['video']:
         file_path = os.path.join(dads['pwd'], file)
-        if os.path.exists(file_path):
-            video.append(file_path)
-    return video
+        if os.path.exists(file_path) and 'right' in file:
+            return file_path
+    return None
 
 def get_video_sync(dads: dict):
-    sync = {}
-    cam_topics = [key for key in dads['topics'].keys() if 'cam' in key]
+    sync = {'current': {}}
+    cam_topics = [key for key in dads['topics'].keys() if 'cam_zed' in key]
     for topic in cam_topics:
-        sync[topic] = {}
         for key in dads['topics'][topic]:
             data = pd.read_csv(os.path.join(dads['pwd'], 'csv', key + '.' + topic))
             for i in range(len(data)):
-                sync[topic][int(data['seq'][i])] = int(data['time'][i])
-    sync['current'] = sync[cam_topics[0]]
+                sync["current"][int(data['seq'][i])] = int(data['time'][i])
     return sync
 
 def change_video(sync: dict, cam: str):

@@ -31,10 +31,8 @@ def get_recording(request: Request, recordingId: str):
             request.app.state.gps = load_gps(request.app.state.dads)
             request.app.state.gps_df = get_gps_df(request.app.state.gps)
             request.app.state.rostime = request.app.state.gps_df["time"].min()
-            request.app.state.video_list = load_video(request.app.state.dads)
+            request.app.state.video_path = load_video(request.app.state.dads)
             request.app.state.video_sync = get_video_sync(request.app.state.dads)
-            request.app.state.video_path = request.app.state.video_list[0]
-            request.app.state.video_sync = change_video(request.app.state.video_sync, request.app.state.video_path)
             request.app.state.scenarios = request.app.state.dads.get("scenarios", {})
             request.app.state.plot_list = get_plot_list(request.app.state.dads)
             request.app.state.lidar = load_lidar_dict(request.app.state.dads)
@@ -44,7 +42,6 @@ def get_recording(request: Request, recordingId: str):
     request.app.state.gps = None
     request.app.state.gps_df = None
     request.app.state.rostime = None
-    request.app.state.video_list = None
     request.app.state.video_sync = None
     request.app.state.video_path = None
     request.app.state.scenarios = None
